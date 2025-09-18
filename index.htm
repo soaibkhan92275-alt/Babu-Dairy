@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Personal Diary</title>
   <style>
     * {
@@ -26,18 +27,17 @@
       content: "";
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: linear-gradient(rgba(5, 10, 20, 0.85), rgba(0, 0, 0, 0.9));
+      background: linear-gradient(rgba(147, 170, 217, 0.85), rgba(0, 0, 0, 0.9));
       z-index: 0;
     }
 
     /* ECG Heartbeat Animation */
     .ecg-line {
       position: absolute;
-      top: 15%;
+      top: 12%;
       left: -200%;
       width: 400%;
-      height: 100px;
-      background: transparent;
+      height: 80px;
       z-index: 1;
       background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="100"><polyline points="0,50 50,50 60,20 70,80 80,50 200,50 210,10 220,90 230,50 1200,50" fill="none" stroke="%2300ffea" stroke-width="2"/></svg>') repeat-x;
       animation: moveECG 4s linear infinite;
@@ -57,56 +57,51 @@
       backdrop-filter: blur(12px);
       width: 90%;
       max-width: 700px;
-      padding: 25px;
+      padding: 20px;
       border-radius: 16px;
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
       box-shadow: 0 0 25px rgba(0, 255, 234, 0.3);
+      overflow-y: auto;
+      max-height: 90vh;
     }
 
     h1 {
       text-align: center;
       margin-bottom: 15px;
-      font-size: 2.2em;
+      font-size: 2em;
       color: #00ffea;
       text-shadow: 0 0 10px #00ffea, 0 0 20px #00bfff;
     }
 
-    input[type="date"] {
+    input[type="date"],
+    textarea,
+    button {
       width: 100%;
-      margin-bottom: 10px;
-      padding: 10px;
+      margin-bottom: 12px;
+      padding: 12px;
       border-radius: 10px;
       border: none;
       outline: none;
+      font-size: 16px;
+    }
+
+    input[type="date"],
+    textarea {
       background: rgba(0, 0, 0, 0.4);
       color: #fff;
     }
 
     textarea {
-      width: 100%;
-      height: 180px;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      outline: none;
+      height: 160px;
       resize: none;
-      font-size: 16px;
-      background: rgba(0, 0, 0, 0.4);
-      color: #fff;
     }
 
     button {
-      margin-top: 15px;
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      cursor: pointer;
       background: #00ffea;
       color: #000;
       font-weight: bold;
+      cursor: pointer;
       transition: 0.3s;
     }
 
@@ -115,11 +110,10 @@
     }
 
     .saved {
-      margin-top: 15px;
       background: rgba(0, 0, 0, 0.6);
       padding: 12px;
       border-radius: 10px;
-      max-height: 200px;
+      max-height: 180px;
       overflow-y: auto;
       font-size: 14px;
     }
@@ -128,6 +122,19 @@
       margin-bottom: 8px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       padding-bottom: 6px;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      h1 { font-size: 1.6em; }
+      textarea { height: 140px; font-size: 14px; }
+      button { font-size: 14px; padding: 10px; }
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.4em; }
+      textarea { height: 120px; font-size: 13px; }
+      button { font-size: 13px; padding: 8px; }
     }
   </style>
 </head>
@@ -176,4 +183,3 @@
   </script>
 </body>
 </html>
-
