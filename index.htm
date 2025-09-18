@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Personal Diary</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: url("https://i.postimg.cc/S2k4dL52/image.jpg") no-repeat center center/cover;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* Dark overlay */
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(rgba(5, 10, 20, 0.85), rgba(0, 0, 0, 0.9));
+      z-index: 0;
+    }
+
+    /* ECG Heartbeat Animation */
+    .ecg-line {
+      position: absolute;
+      top: 15%;
+      left: -200%;
+      width: 400%;
+      height: 100px;
+      background: transparent;
+      z-index: 1;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="100"><polyline points="0,50 50,50 60,20 70,80 80,50 200,50 210,10 220,90 230,50 1200,50" fill="none" stroke="%2300ffea" stroke-width="2"/></svg>') repeat-x;
+      animation: moveECG 4s linear infinite;
+      filter: drop-shadow(0 0 6px #00ffea);
+    }
+
+    @keyframes moveECG {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(50%); }
+    }
+
+    /* Diary box */
+    .overlay {
+      position: relative;
+      z-index: 2;
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      width: 90%;
+      max-width: 700px;
+      padding: 25px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      box-shadow: 0 0 25px rgba(0, 255, 234, 0.3);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 15px;
+      font-size: 2.2em;
+      color: #00ffea;
+      text-shadow: 0 0 10px #00ffea, 0 0 20px #00bfff;
+    }
+
+    input[type="date"] {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+    }
+
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      outline: none;
+      resize: none;
+      font-size: 16px;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+    }
+
+    button {
+      margin-top: 15px;
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      background: #00ffea;
+      color: #000;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00bba8;
+    }
+
+    .saved {
+      margin-top: 15px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 12px;
+      border-radius: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+
+    .saved p {
+      margin-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+  <!-- ECG heartbeat line -->
+  <div class="ecg-line"></div>
+
+  <div class="overlay">
+    <h1>🌙 Meri Babu Ki Personal Diary</h1>
+    <input type="date" id="date">
+    <textarea id="note" placeholder="Babu aapko jo likhna hai likho yahan aapko ki baton ko koi n dekhega..."></textarea>
+    <button onclick="saveNote()">Save Note</button>
+    <div class="saved" id="savedNotes"></div>
+  </div>
+
+  <script>
+    function saveNote() {
+      const note = document.getElementById("note").value;
+      const date = document.getElementById("date").value;
+
+      if (note.trim() === "" || date === "") {
+        alert("Please select a date and write something!");
+        return;
+      }
+
+      const notes = JSON.parse(localStorage.getItem("notes")) || {};
+      if (!notes[date]) notes[date] = [];
+      notes[date].push(note);
+
+      localStorage.setItem("notes", JSON.stringify(notes));
+      document.getElementById("note").value = "";
+      showNotes();
+    }
+
+    function showNotes() {
+      const notes = JSON.parse(localStorage.getItem("notes")) || {};
+      const container = document.getElementById("savedNotes");
+      container.innerHTML = "";
+
+      Object.keys(notes).sort((a, b) => new Date(b) - new Date(a)).forEach(date => {
+        container.innerHTML += `<p><b>${date}:</b> ${notes[date].join("<br>")}</p>`;
+      });
+    }
+
+    showNotes();
+  </script>
+</body>
+</html>
+
